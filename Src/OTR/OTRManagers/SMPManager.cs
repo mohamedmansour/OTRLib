@@ -8,6 +8,7 @@ using System.Text;
 using OTR.Utilities;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Crypto.Digests;
+using System.IO;
 
 namespace OTR.Managers
 {
@@ -348,7 +349,7 @@ namespace OTR.Managers
             SetFirstMessageData();
 
             if (_smp_first_message_data == null || _smp_first_message_data.Length < MESSAGE_1_MPI_COUNT)
-            throw new ApplicationException("FormatSMPMessage1:The SMP first message data cannot be null or have elements less than " + MESSAGE_1_MPI_COUNT.ToString());
+            throw new InvalidDataException("FormatSMPMessage1:The SMP first message data cannot be null or have elements less than " + MESSAGE_1_MPI_COUNT.ToString());
 
 
             byte[] _temp_mpi_buff = null;
@@ -419,7 +420,7 @@ namespace OTR.Managers
 
 
             if (_smp_second_message_data == null || _smp_second_message_data.Length < MESSAGE_2_MPI_COUNT)
-            throw new ApplicationException("FormatSMPMessage2:The SMP second message data cannot be null or have elements less than " + MESSAGE_2_MPI_COUNT.ToString());
+            throw new InvalidDataException("FormatSMPMessage2:The SMP second message data cannot be null or have elements less than " + MESSAGE_2_MPI_COUNT.ToString());
 
 
             byte[] _temp_mpi_buff = null;
@@ -519,7 +520,7 @@ namespace OTR.Managers
             SetThirdMessage();
             
             if (_smp_third_message_data == null || _smp_third_message_data.Length < MESSAGE_3_MPI_COUNT)
-             throw new ApplicationException("FormatSMPMessage3:The SMP third message data cannot be null or have elements less than " + MESSAGE_3_MPI_COUNT.ToString());
+             throw new InvalidDataException("FormatSMPMessage3:The SMP third message data cannot be null or have elements less than " + MESSAGE_3_MPI_COUNT.ToString());
 
            
 
@@ -688,7 +689,8 @@ namespace OTR.Managers
                 smp_event_type_1 = OTR.Interface.OTR_SMP_EVENT.ABORT;
                 message = "ProcessSMPMessage:" + ex.ToString();
                 ResetData();
-                Console.WriteLine("Exception {0} \n", ex.ToString());
+                //TODO(mo)
+                //Console.WriteLine("Exception {0} \n", ex.ToString());
             }
             
 

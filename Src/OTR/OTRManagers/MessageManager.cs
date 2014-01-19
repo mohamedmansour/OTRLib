@@ -7,6 +7,7 @@ using System.Text;
 
 
 using OTR.Utilities;
+using System.IO;
 
 namespace OTR.Managers
 {
@@ -108,7 +109,7 @@ namespace OTR.Managers
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("MessageManager:" + ex.ToString());
+                throw new InvalidDataException("MessageManager:" + ex.ToString());
             }
 
 

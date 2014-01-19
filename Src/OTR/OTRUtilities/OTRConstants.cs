@@ -5,6 +5,7 @@ using System.Text;
 
 using System.Numerics;
 using System.Globalization;
+using System.IO;
 
 namespace OTR.Utilities
 {
@@ -425,7 +426,7 @@ namespace OTR.Utilities
         public byte[] GetPublicKeyMpiBytes()
         {
             if (_public_key < 0)
-            throw new ApplicationException("GetPublicKeyMpiBytes: The public key (BigInteger) cannot be less than 0. Call SetPublicKey()");
+            throw new InvalidDataException("GetPublicKeyMpiBytes: The public key (BigInteger) cannot be less than 0. Call SetPublicKey()");
 
             if (_public_key_mpi_byte_array == null)
             Utility.EncodeMpiBytes(_public_key, ref _public_key_mpi_byte_array);

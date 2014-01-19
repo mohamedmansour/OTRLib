@@ -9,6 +9,8 @@ using System.Threading;
 using OTR.Interface;
 using OTR.Utilities;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 
 
 
@@ -190,11 +192,11 @@ namespace OTR.Managers
         public void EndOTRSession()
         {
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EndOTRSession:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EndOTRSession:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("EndOTRSession:The OTR session object cannot be null");
+                throw new InvalidDataException("EndOTRSession:The OTR session object cannot be null");
 
 
 
@@ -205,19 +207,19 @@ namespace OTR.Managers
 
 
             if (_encoded_tlv_end_bytes == null || _encoded_tlv_end_bytes.Length < 1)
-                throw new ApplicationException("EndOTRSession: The encoded OTR end session array cannot be null/empty");
+                throw new InvalidDataException("EndOTRSession: The encoded OTR end session array cannot be null/empty");
 
 
             byte[] _message_byte_array = FormatMessageWtTLV(null, _encoded_tlv_end_bytes, null);
 
 
             if (_message_byte_array == null)
-                throw new ApplicationException("EndOTRSession: The message byte array cannot be null/empty");
+                throw new InvalidDataException("EndOTRSession: The message byte array cannot be null/empty");
 
 
             EncryptMessage(_message_byte_array,false);
 
-            Thread.Sleep(50);
+            Task.Delay(TimeSpan.FromMilliseconds(50));
 
 
             CloseOTRSession("OTR Session closed");
@@ -256,11 +258,11 @@ namespace OTR.Managers
 
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("EncryptMessage:The OTR session object cannot be null");
+                throw new InvalidDataException("EncryptMessage:The OTR session object cannot be null");
 
 
 
@@ -274,7 +276,7 @@ namespace OTR.Managers
             byte[] _message_byte_array = FormatMessageWtTLV(message_string, _encoded_padding_bytes, null);
 
             if (_message_byte_array == null)
-                throw new ApplicationException("EncryptMessage: The message byte array cannot be null/empty");
+                throw new InvalidDataException("EncryptMessage: The message byte array cannot be null/empty");
 
             EncryptMessage(_message_byte_array,false);
 
@@ -291,11 +293,11 @@ namespace OTR.Managers
 
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("EncryptMessage:The OTR session object cannot be null");
+                throw new InvalidDataException("EncryptMessage:The OTR session object cannot be null");
 
             byte[] _encoded_padding_bytes = null;
             byte[] _encoded_smp_bytes = null;
@@ -316,7 +318,7 @@ namespace OTR.Managers
             byte[] _message_byte_array = FormatMessageWtTLV(message_string, _encoded_padding_bytes, _encoded_smp_bytes);
 
             if (_message_byte_array == null)
-                throw new ApplicationException("EncryptMessage: The message byte array cannot be null/empty");
+                throw new InvalidDataException("EncryptMessage: The message byte array cannot be null/empty");
 
             EncryptMessage(_message_byte_array, false);
 
@@ -327,11 +329,11 @@ namespace OTR.Managers
                 throw new ArgumentException("EncryptMessage: The length of the padding cannot be less than 1");
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("EncryptMessage:The OTR session object cannot be null");
+                throw new InvalidDataException("EncryptMessage:The OTR session object cannot be null");
 
             _temp_buffer = Utility.GetRandomByteArray(padding_length_bytes);
 
@@ -352,7 +354,7 @@ namespace OTR.Managers
             byte[] _message_byte_array = FormatMessageWtTLV(null, _encoded_padding_bytes, _encoded_smp_bytes);
 
             if (_message_byte_array == null)
-                throw new ApplicationException("EncryptMessage: The message byte array cannot be null/empty");
+                throw new InvalidDataException("EncryptMessage: The message byte array cannot be null/empty");
 
 
 
@@ -372,11 +374,11 @@ namespace OTR.Managers
                 throw new ArgumentException("EncryptMessage: The message string cannot be null/empty");
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("EncryptMessage:The OTR session object cannot be null");
+                throw new InvalidDataException("EncryptMessage:The OTR session object cannot be null");
 
             byte[] _encoded_smp_bytes = null;
 
@@ -393,7 +395,7 @@ namespace OTR.Managers
 
 
             if (_message_byte_array == null)
-                throw new ApplicationException("EncryptMessage: The message byte array cannot be null/empty");
+                throw new InvalidDataException("EncryptMessage: The message byte array cannot be null/empty");
 
 
 
@@ -414,11 +416,11 @@ namespace OTR.Managers
 
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptFragments:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptFragments:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-            throw new ApplicationException("EncryptFragments:The OTR session object cannot be null");
+            throw new InvalidDataException("EncryptFragments:The OTR session object cannot be null");
 
            
             byte[] _message_bytes = null;
@@ -441,11 +443,11 @@ namespace OTR.Managers
 
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("EncryptFragments:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("EncryptFragments:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-              throw new ApplicationException("EncryptFragments:The OTR session object cannot be null");
+              throw new InvalidDataException("EncryptFragments:The OTR session object cannot be null");
 
             byte[] _formatted_message = FormatMessage(message_bytes, false);
 
@@ -467,24 +469,24 @@ namespace OTR.Managers
         public void StartSMP()
         {
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("StartSMP:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("StartSMP:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("StartSMP:The OTR session object cannot be null");
+                throw new InvalidDataException("StartSMP:The OTR session object cannot be null");
 
             StartSMPSession(true);
 
             byte[] _encoded_smp_bytes = _smp_manager.FormatSMPMessage1();
 
             if (_encoded_smp_bytes == null || _encoded_smp_bytes.Length < 1)
-                throw new ApplicationException("StartSMP: The encoded SMP byte array cannot be null/empty");
+                throw new InvalidDataException("StartSMP: The encoded SMP byte array cannot be null/empty");
 
 
             byte[] _message_byte_array = FormatMessageWtTLV(null, _encoded_smp_bytes, null);
 
             if (_message_byte_array == null)
-            throw new ApplicationException("StartSMP: The message byte array cannot be null/empty");
+            throw new InvalidDataException("StartSMP: The message byte array cannot be null/empty");
 
             if (_smp_max_fragement_length > 0)
             EncryptFragments(_message_byte_array, _smp_max_fragement_length);
@@ -495,11 +497,11 @@ namespace OTR.Managers
         public void AbortSMP()
         {
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("AbortSMP:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("AbortSMP:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("AbortSMP:The OTR session object cannot be null");
+                throw new InvalidDataException("AbortSMP:The OTR session object cannot be null");
 
             byte[] _encoded_tlv_abort_bytes = null;
 
@@ -510,7 +512,7 @@ namespace OTR.Managers
 
 
             if (_message_byte_array == null)
-                throw new ApplicationException("AbortSMP: The message byte array cannot be null/empty");
+                throw new InvalidDataException("AbortSMP: The message byte array cannot be null/empty");
 
 
 
@@ -531,7 +533,7 @@ namespace OTR.Managers
         public void RequestExtraKeyUse()
         {
             if (_current_otr_version == OTR_VERSION.VERSION_2)
-                throw new ApplicationException("OTR version 2 does not support the use of the extra symmetric key");
+                throw new InvalidDataException("OTR version 2 does not support the use of the extra symmetric key");
 
             _temp_buffer = null;
             byte[] _ecoded_extra_sym_key_request = null;
@@ -564,11 +566,11 @@ namespace OTR.Managers
 
 
             if (_message_state != OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED)
-                throw new ApplicationException("FormatMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
+                throw new InvalidDataException("FormatMessage:OTR engine not in the MSG_STATE_ENCRYPTED state");
 
 
             if (_otr_session_object == null)
-                throw new ApplicationException("FormatMessage:The OTR session object cannot be null");
+                throw new InvalidDataException("FormatMessage:The OTR session object cannot be null");
 
             DataExchangeKeys _data_exchange_keys = _otr_session_object.GetDataExchangeKeys();
 
@@ -1556,7 +1558,7 @@ namespace OTR.Managers
                 return;
 
 
-            string _plain_text = UTF8Encoding.UTF8.GetString(_message_data);
+            string _plain_text = UTF8Encoding.UTF8.GetString(_message_data, 0, _message_data.Length);
 
             _otr_event_args.SetOTREvent(OTR_EVENT.MESSAGE);
             _otr_event_args.SetOldMacKeys(old_mac_keys);
@@ -1914,7 +1916,7 @@ namespace OTR.Managers
         {
 
             if (string.IsNullOrEmpty(_user_specified_secret))
-                throw new ApplicationException("GetSMPSecret:The user specified SMP secret string cannot be null/empty");
+                throw new InvalidDataException("GetSMPSecret:The user specified SMP secret string cannot be null/empty");
 
 
             int _smp_secret_byte_length = 0;
@@ -1946,16 +1948,16 @@ namespace OTR.Managers
 
 
             if (_initiator_finger_print == null || _initiator_finger_print.Length < 1)
-                throw new ApplicationException("GetSMPSecret: The SMP Initiator finger print byte array cannot be null/empty");
+                throw new InvalidDataException("GetSMPSecret: The SMP Initiator finger print byte array cannot be null/empty");
 
             if (_responder_finger_print == null || _responder_finger_print.Length < 1)
-                throw new ApplicationException("GetSMPSecret: The SMP Responder finger print byte array cannot be null/empty");
+                throw new InvalidDataException("GetSMPSecret: The SMP Responder finger print byte array cannot be null/empty");
 
             _secure_session_id = _ake_keys.GetSessionID();
 
 
             if (_secure_session_id == null || _secure_session_id.Length < 1)
-                throw new ApplicationException("GetSMPSecret: The secure session id byte array cannot be null/empty");
+                throw new InvalidDataException("GetSMPSecret: The secure session id byte array cannot be null/empty");
 
 
 

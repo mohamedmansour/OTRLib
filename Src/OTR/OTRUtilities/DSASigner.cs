@@ -9,6 +9,7 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Math;
+using System.IO;
 
 
 //Source:http://www.massapi.com/source/lcrypto-j2me-126/src/org/bouncycastle/crypto/signers/DSASigner.java.html
@@ -183,7 +184,7 @@ namespace OTR.Utilities
                        
             /*    */
            // if (IsValidPQLength(_parameters.P.BitLength, _parameters.Q.BitLength) == false)
-            //throw new ApplicationException("GenerateSignature: The Length of the DSA key P parameter does not correspond to that of the Q parameter");
+            //throw new InvalidDataException("GenerateSignature: The Length of the DSA key P parameter does not correspond to that of the Q parameter");
 
             
             
@@ -215,7 +216,7 @@ namespace OTR.Utilities
                 catch (Exception)
                 {
                     if (MAX_FAILURE_COUNT == _failure_count)
-                   throw new ApplicationException("GenerateSignature: Failed sign data after " + MAX_FAILURE_COUNT.ToString() + " tries.");
+                   throw new InvalidDataException("GenerateSignature: Failed sign data after " + MAX_FAILURE_COUNT.ToString() + " tries.");
                     _do_again = true;
                     _failure_count++;
 
@@ -256,7 +257,7 @@ namespace OTR.Utilities
 
             /*
             if (IsValidPQLength(_parameters.P.BitLength, _parameters.Q.BitLength) == false)
-            throw new ApplicationException("VerifySignature: The Length of the DSA key P parameter does not correspond to that of the Q parameter");
+            throw new InvalidDataException("VerifySignature: The Length of the DSA key P parameter does not correspond to that of the Q parameter");
             */
 
 

@@ -6,6 +6,7 @@ using System.Text;
 
 using OTR.Managers;
 using OTR.Utilities;
+using System.IO;
 
 namespace OTR.Interface
 {
@@ -45,7 +46,7 @@ namespace OTR.Interface
 
             
             if (IsSessionRegistered(my_buddy_unique_id) == true)
-            throw new ApplicationException("CreateOTRSession: A session with this unique ID already exists");
+                throw new ArgumentException("CreateOTRSession: A session with this unique ID already exists");
 
             OTRSession _session_object = new OTRSession(_my_unique_id, my_buddy_unique_id, debug_mode);
             
@@ -67,7 +68,7 @@ namespace OTR.Interface
 
             
             if (IsSessionRegistered(my_buddy_unique_id) == true)
-            throw new ApplicationException("CreateOTRSession: A session with this unique ID already exists");
+            throw new InvalidDataException("CreateOTRSession: A session with this unique ID already exists");
 
             OTRSession _session_object = new OTRSession(_my_unique_id, my_buddy_unique_id, dsa_key_hex_string, debug_mode);
 
@@ -88,7 +89,7 @@ namespace OTR.Interface
 
 
             if (IsSessionRegistered(my_buddy_unique_id) == true)
-                throw new ApplicationException("CreateOTRSession: A session with this unique ID already exists");
+                throw new InvalidDataException("CreateOTRSession: A session with this unique ID already exists");
 
             OTRSession _session_object = new OTRSession(_my_unique_id, my_buddy_unique_id, dsa_key_hex_string);
 

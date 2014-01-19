@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Security.Cryptography;
+using Windows.Security.Cryptography;
 using System.Numerics;
 using Org.BouncyCastle.Crypto.Parameters;
 
 using OTR.Utilities;
+using System.IO;
 
 namespace OTR.Managers
 {
@@ -95,7 +96,7 @@ namespace OTR.Managers
             catch (Exception ex)
             {
 
-                throw new ApplicationException("ComputeSignatureValues:" + ex.ToString());
+                throw new InvalidDataException("ComputeSignatureValues:" + ex.ToString());
 
             }
 
@@ -104,11 +105,11 @@ namespace OTR.Managers
 
 
             if (is_top_half_keys == true && (ake_keys.GetMACKey2() == null || ake_keys.GetMACKey2().Length < 1))
-             throw new ApplicationException("ComputeSignatureValues: The AKE MAC key 2 should not be null/empty");
+             throw new InvalidDataException("ComputeSignatureValues: The AKE MAC key 2 should not be null/empty");
 
 
             if (is_top_half_keys == false && (ake_keys.GetMACKey4() == null || ake_keys.GetMACKey4().Length < 1))
-                throw new ApplicationException("ComputeSignatureValues: The AKE MAC key 4 should not be null/empty");
+                throw new InvalidDataException("ComputeSignatureValues: The AKE MAC key 4 should not be null/empty");
 
 
 
@@ -158,7 +159,7 @@ namespace OTR.Managers
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("ComputeM:" + ex.ToString());
+                throw new InvalidDataException("ComputeM:" + ex.ToString());
 
             }
 
@@ -211,10 +212,10 @@ namespace OTR.Managers
             dsa_signer.GenerateSignature(hashed_m_byte_array_data, ref _signature_r_byte_array, ref _signature_s_byte_array);
 
             if (_signature_r_byte_array == null || _signature_r_byte_array.Length < 1)
-                throw new ApplicationException("ComputeX: The computed DSA signature parameter 'r' byte array cannot be null/empty");
+                throw new InvalidDataException("ComputeX: The computed DSA signature parameter 'r' byte array cannot be null/empty");
 
             if (_signature_s_byte_array == null || _signature_s_byte_array.Length < 1)
-                throw new ApplicationException("ComputeX: The computed DSA signature parameter 's' byte array cannot be null/empty");
+                throw new InvalidDataException("ComputeX: The computed DSA signature parameter 's' byte array cannot be null/empty");
 
 
 
@@ -237,10 +238,10 @@ namespace OTR.Managers
 
                
                 if (_encoded_signature_r_byte_array == null || _encoded_signature_r_byte_array.Length < 1)
-                    throw new ApplicationException("ComputeX: The encoded DSA signature parameter 'r' byte array cannot be null/empty");
+                    throw new InvalidDataException("ComputeX: The encoded DSA signature parameter 'r' byte array cannot be null/empty");
 
                 if (_encoded_signature_s_byte_array == null || _encoded_signature_s_byte_array.Length < 1)
-                    throw new ApplicationException("ComputeX: The encoded DSA signature parameter 's' byte array cannot be null/empty");
+                    throw new InvalidDataException("ComputeX: The encoded DSA signature parameter 's' byte array cannot be null/empty");
                 
 
                 _hashed_m_data_signature = new byte[_encoded_signature_r_byte_array.Length + _encoded_signature_s_byte_array.Length];
@@ -255,14 +256,14 @@ namespace OTR.Managers
             catch (Exception ex)
             {
 
-                throw new ApplicationException("ComputeX:" + ex.ToString());
+                throw new InvalidDataException("ComputeX:" + ex.ToString());
 
             }
 
 
 
             if (_encoded_key_id_byte_array == null || _encoded_key_id_byte_array.Length < 1)
-                throw new ApplicationException("ComputeX: The encoded key id byte array should not be null/empty");
+                throw new InvalidDataException("ComputeX: The encoded key id byte array should not be null/empty");
 
 
 
@@ -289,7 +290,7 @@ namespace OTR.Managers
         {
 
             if (_encoded_encrypted_signature_byte_array == null || _encoded_encrypted_signature_byte_array.Length < 1)
-               throw new ApplicationException("GetHashedSignatureBytes: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
+               throw new InvalidDataException("GetHashedSignatureBytes: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
 
 
             return _encoded_encrypted_signature_byte_array;
@@ -298,7 +299,7 @@ namespace OTR.Managers
         private byte [] GetHashedSignatureBytes()
         {
             if (_truncated_hash_signature == null || _truncated_hash_signature.Length < 1)
-            throw new ApplicationException("GetHashedSignatureBytes: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
+            throw new InvalidDataException("GetHashedSignatureBytes: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
 
                                       
             return _truncated_hash_signature;
@@ -310,10 +311,10 @@ namespace OTR.Managers
 
 
             if (_truncated_hash_signature == null || _truncated_hash_signature.Length < 1)
-                throw new ApplicationException("GetSignatureDataBytes: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
+                throw new InvalidDataException("GetSignatureDataBytes: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
 
             if (_encoded_encrypted_signature_byte_array == null || _encoded_encrypted_signature_byte_array.Length < 1)
-              throw new ApplicationException("GetSignatureDataBytes: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
+              throw new InvalidDataException("GetSignatureDataBytes: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
 
 
            byte[] _signature_data = new byte[_encoded_encrypted_signature_byte_array.Length + _truncated_hash_signature.Length];
@@ -331,10 +332,10 @@ namespace OTR.Managers
         public int GetSignatureDataLength()
         {
             if (_truncated_hash_signature == null || _truncated_hash_signature.Length < 1)
-                throw new ApplicationException("GetSignatureDataLength: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
+                throw new InvalidDataException("GetSignatureDataLength: Truncated hashed signature value is invalid. Make sure ComputeAuthValues function has been called");
 
             if (_encoded_encrypted_signature_byte_array == null || _encoded_encrypted_signature_byte_array.Length < 1)
-               throw new ApplicationException("GetSignatureDataLength: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
+               throw new InvalidDataException("GetSignatureDataLength: Encoded encrypted signature value is invalid. Make sure ComputeAuthValues function has been called");
 
             return _encoded_encrypted_signature_byte_array.Length + _truncated_hash_signature.Length;
 
@@ -444,7 +445,7 @@ namespace OTR.Managers
                 _next_start_index = Utility.DecodeDataFromBytesBE(encryted_byte_array, _next_start_index, ref _temp_byte_array);
 
                 if (_temp_byte_array == null || _temp_byte_array.Length < 1)
-                    throw new ApplicationException("IsEncryptedSignatureVerified: The decoded Encrypted OTR Data type byte array cannot be null/empty");
+                    throw new InvalidDataException("IsEncryptedSignatureVerified: The decoded Encrypted OTR Data type byte array cannot be null/empty");
 
                 if (is_top_half_keys == true)
                 _decrypted_x_data_array = Utility.AESGetDecrypt(ake_keys.GetAESKey1(), _temp_byte_array, counter);
@@ -455,7 +456,7 @@ namespace OTR.Managers
 
 
                 if (_decrypted_x_data_array == null || _decrypted_x_data_array.Length < 1)
-                    throw new ApplicationException("IsEncryptedSignatureVerified: The decrypted byte array cannot be null/empty");
+                    throw new InvalidDataException("IsEncryptedSignatureVerified: The decrypted byte array cannot be null/empty");
 
 
                 /*get public key parameter bytes*/
@@ -470,11 +471,11 @@ namespace OTR.Managers
                 _next_start_index = Utility.DecodeShortFromBytes(_decrypted_x_data_array, _next_start_index, ref  _dsa_public_key_type);
 
                 if (_dsa_public_key_type == null || _dsa_public_key_type.Length < 1)
-                    throw new ApplicationException("IsEncryptedSignatureVerified: The decoded DSA public key type byte array cannot be null/empty");
+                    throw new InvalidDataException("IsEncryptedSignatureVerified: The decoded DSA public key type byte array cannot be null/empty");
 
                 
                 if (BitConverter.ToUInt16(_dsa_public_key_type,0) != OTRConstants.DSA_PUB_KEY_TYPE)
-                throw new ApplicationException("IsEncryptedSignatureVerified: The DSA public key type is invalid");
+                throw new InvalidDataException("IsEncryptedSignatureVerified: The DSA public key type is invalid");
 
                 
                 
@@ -501,7 +502,7 @@ namespace OTR.Managers
 
               
                 if (_dh_kid_bytes == null || _dh_kid_bytes.Length < 1)
-                throw new ApplicationException("IsEncryptedSignatureVerified: The decoded Key ID OTR Int type byte array cannot be null/empty");
+                throw new InvalidDataException("IsEncryptedSignatureVerified: The decoded Key ID OTR Int type byte array cannot be null/empty");
 
                                 
                 public_key_id = BitConverter.ToUInt32(_dh_kid_bytes, 0);
@@ -513,7 +514,7 @@ namespace OTR.Managers
                 Buffer.BlockCopy(_decrypted_x_data_array, _next_start_index, _hashed_m_data_signature, 0, _hashed_m_data_signature.Length);
 
                 if (_hashed_m_data_signature == null || _hashed_m_data_signature.Length < 1)
-                throw new ApplicationException("IsEncryptedSignatureVerified: The extracted Signed byte array, M_b, cannot be null/empty");
+                throw new InvalidDataException("IsEncryptedSignatureVerified: The extracted Signed byte array, M_b, cannot be null/empty");
 
 
                 /*Decode r and s  */
@@ -532,10 +533,10 @@ namespace OTR.Managers
 
                
                 if (_decoded_signature_r_byte_array == null || _decoded_signature_r_byte_array.Length < 1)
-                    throw new ApplicationException("IsEncryptedSignatureVerified: The decoded DSA signature parameter 'r' byte array cannot be null/empty");
+                    throw new InvalidDataException("IsEncryptedSignatureVerified: The decoded DSA signature parameter 'r' byte array cannot be null/empty");
 
                 if (_decoded_signature_s_byte_array == null || _decoded_signature_s_byte_array.Length < 1)
-                  throw new ApplicationException("IsEncryptedSignatureVerified: The decoded DSA signature parameter 's' byte array cannot be null/empty");
+                  throw new InvalidDataException("IsEncryptedSignatureVerified: The decoded DSA signature parameter 's' byte array cannot be null/empty");
 
 
 
@@ -556,7 +557,7 @@ namespace OTR.Managers
             catch (Exception ex)
             {
                 _is_verified = false;
-                throw new ApplicationException("IsEncryptedVerified:" + ex.ToString());
+                throw new InvalidDataException("IsEncryptedVerified:" + ex.ToString());
 
             }
 
