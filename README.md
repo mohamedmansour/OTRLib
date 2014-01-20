@@ -19,8 +19,7 @@ What is OTR
 
 Development
 ------
-This was developed by Don Fizachi originally for .NET on
-Code Project http://www.codeproject.com/Articles/644318/Off-The-Record-OTR-Security-Protocol
+This was developed by Code Project [Don Fizachi](http://www.codeproject.com/Articles/644318/Off-The-Record-OTR-Security-Protocol) originally for .NET.
 We converted it to run on the Windows 8 Runtime. These
 areas has changed:
 
