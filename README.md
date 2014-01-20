@@ -1,10 +1,10 @@
 OTRLib
 ======
 
-Off The Record (OTR) protocol library in C# for Windows 8
-Runtime. This was done during the Facebook/Windows
-Hackathon to create SecureChat for Facebook Windows
-8 App.
+Off The Record (OTR) messaging cryptography protocol
+library in C# for Windows 8 Runtime. This was done
+during the Facebook/Windows Hackathon to create
+SecureChat for Facebook Windows 8 App.
 
 What is OTR
 ------
