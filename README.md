@@ -1,13 +1,19 @@
-OTRLib
-======
+# OTRLib
 
 Off The Record (OTR) messaging cryptography protocol
 library in C# for Windows 8 Runtime. This was done
 during the Facebook/Windows Hackathon to create
 SecureChat for Facebook Windows 8 App.
 
-What is OTR
-------
+## Install
+
+Install the NuGet package "OTR" or via command line:
+
+```sh
+PM> Install-Package OTR
+```
+
+## What is OTR
 
 * Confidentiality so that the messages are encrypted. 
 * Authentication that verifies who the initiator and
@@ -17,8 +23,8 @@ What is OTR
 * Deniability, so that the MAC keys that already have
   been used will not be used again.
 
-Development
-------
+## Development
+
 This was developed by Code Project [Don Fizachi](http://www.codeproject.com/Articles/644318/Off-The-Record-OTR-Security-Protocol) originally for .NET.
 We converted it to run on the Windows 8 Runtime. These
 areas has changed:
