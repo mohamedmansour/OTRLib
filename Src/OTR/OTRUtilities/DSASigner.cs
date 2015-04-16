@@ -112,7 +112,6 @@ namespace OTR.Utilities
             _Y = _G.ModPow(_X, _P);
 
             DsaParameters _dsa_param = new DsaParameters(_P, _Q, _G);
-            DsaKeyParameters _dsa_key_params = new DsaKeyParameters(true, _dsa_param);
             _public_key_param = new DsaPublicKeyParameters(_Y, _dsa_param);
             _private_key_param = new DsaPrivateKeyParameters(_X, _dsa_param);
 

@@ -609,7 +609,6 @@ namespace OTR.Managers
             
             
           DsaParameters _dsa_param         = new DsaParameters(_P, _Q, _G);
-          DsaKeyParameters _dsa_key_params = new DsaKeyParameters(false, _dsa_param);
           DsaPublicKeyParameters _public_key_param = new DsaPublicKeyParameters(_Y, _dsa_param);
 
 

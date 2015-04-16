@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>OTR</id>
+    <version>1.0.0</version>
+    <authors>Mohamed Mansour</authors>
+    <owners>Mohamed Mansour</owners>
+    <licenseUrl>https://github.com/mohamedmansour/OTRLib/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mohamedmansour/OTRLib</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Off The Record (OTR) protocol library in C# for Windows Runtime. Implements Perfect Forward Secrecy</description>
+    <releaseNotes>Initial NuGET Release</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>OTR Cryptography PFS</tags>
+    <dependencies>
+        <dependency id="Portable.BouncyCastle" version="1.7.0.2" />
+    </dependencies>
+  </metadata>
+</package>
