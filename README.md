@@ -38,4 +38,6 @@ areas has changed:
 * Random Byte Generator had to change using different
   approach
  
-  
+## Demo App
+
+Take a look at the Test folder, thats a demo app that sends OTR messages back and fourth to two clients. 
